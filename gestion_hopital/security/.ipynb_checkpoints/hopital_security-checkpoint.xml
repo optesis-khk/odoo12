@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="hopital_group_manager" model="res.groups">
+            <field name="name">Gestionnaire</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record id="hopital_group_medecin" model="res.groups">
+            <field name="name">Medecin</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+    </data>
+</odoo>
