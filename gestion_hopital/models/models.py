@@ -51,15 +51,30 @@ class gestion_hopital_medecin(models.Model):
     
 class gestion_hopital_grade(models.Model):
     _name = "gestion_hopital.grade"
+    _description = "Grade Model"
     
-    nom = fields.Char(string="Libelle")
+    name = fields.Char(string="Libelle")
     code = fields.Char(string="Code")
     
     
 class gestion_hopital_specialite(models.Model):
     _name = "gestion_hopital.specialite"
+    _description = "Specialite Model"
     
-    nom = fields.Char(string="Libelle")
+    name = fields.Char(string="Libelle")
     code = fields.Char(string="Code")
+    
+    
+class gestion_hopital_salle(models.Model):
+    _name = "gestion_hopital.salle"
+    _description = "Salle Model"
+    
+    _sql_constraints = [
+        ('name_uniq', 'UNIQUE (numero)',  'You can not have two users with the same name !')
+    ]
+    
+    name = fields.Char(string="Salle")
+    numero = fields.Char(string="Numero")
+    nb_patient = fields.Integer(string="Numero")
     
     

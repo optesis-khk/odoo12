@@ -151,7 +151,7 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="nom"/>
+                            <field name="name"/>
                             <field name="code"/>
                         </group>
                     </group>
@@ -166,7 +166,7 @@
           <field name="model">gestion_hopital.grade</field>
           <field name="arch" type="xml">
             <tree>
-              <field name="nom"/>
+              <field name="name"/>
               <field name="code"/>
             </tree>
           </field>
@@ -179,11 +179,23 @@
           <field name="view_mode">tree,form</field>
         </record>
       
-        <!-- actions opening views on specialite -->
-        <record model="ir.actions.act_window" id="gestion_hopital.specialite_action_window">
-          <field name="name">Specialites</field>
-          <field name="res_model">gestion_hopital.specialite</field>
-          <field name="view_mode">tree,form</field>
+      <!-- specialite form view -->
+      <record id="view_gestion_hopital_grade_form" model="ir.ui.view">
+            <field name="name">gestion_hopital.specialite.form</field>
+            <field name="model">gestion_hopital.specialite</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <form string="Specialite">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
         </record>
       
       
@@ -193,7 +205,7 @@
           <field name="model">gestion_hopital.specialite</field>
           <field name="arch" type="xml">
             <tree>
-              <field name="nom"/>
+              <field name="name"/>
               <field name="code"/>
             </tree>
           </field>
@@ -205,22 +217,47 @@
           <field name="res_model">gestion_hopital.specialite</field>
           <field name="view_mode">tree,form</field>
         </record>
-
-    <!-- server action to the one above -->
-    
-<!--     <record model="ir.actions.server" id="gestion_hopital.action_server">
-      <field name="name">gestion_hopital server</field>
-      <field name="model_id" ref="model_gestion_hopital_patient"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": self._name,
-        }
-      </field>
-    </record> -->
-   
+      
+      <!-- salle form viwe -->
+      <record id="view_gestion_hopital_salle_form" model="ir.ui.view">
+            <field name="name">gestion_hopital.salle.form</field>
+            <field name="model">gestion_hopital.salle</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <form string="Salle">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="numero"/>
+                            <field name="nb_patient"/>
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+      
+        <!-- explicit list view definition for salle-->
+        <record model="ir.ui.view" id="gestion_hopital.salle">
+          <field name="name">Salle List</field>
+          <field name="model">gestion_hopital.salle</field>
+          <field name="arch" type="xml">
+            <tree>
+              <field name="name"/>
+              <field name="numero"/>
+              <field name="nb_patient"/>
+            </tree>
+          </field>
+        </record>
+      
+      <!-- actions opening views on salle -->
+        <record model="ir.actions.act_window" id="gestion_hopital.salle_action_window">
+          <field name="name">Salle</field>
+          <field name="res_model">gestion_hopital.salle</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+      
 
     <!-- Top menu item -->
     
@@ -239,6 +276,8 @@
               action="gestion_hopital.grade_action_window"/>
     <menuitem name="Specialites" id="gestion_hopital.menu_specialite" parent="gestion_hopital.menu_configuration"
               action="gestion_hopital.specialite_action_window"/>
+    <menuitem name="Salle" id="gestion_hopital.menu_salle" parent="gestion_hopital.menu_configuration"
+              action="gestion_hopital.salle_action_window"/>
       
 <!--     <menuitem name="Server to list" id="gestion_hopital" parent="gestion_hopital.menu_2"
               action="gestion_hopital.action_server"/> -->
