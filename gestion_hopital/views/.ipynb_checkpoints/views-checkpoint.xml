@@ -1,6 +1,14 @@
 <odoo>
   <data>
       
+      <record model="ir.actions.act_window" id="get_hospitalisation">
+          <field name="name">Hospitalisation</field>
+          <field name="res_model">gestion_hopital.internat</field>
+          <field name="view_mode">tree,form</field>
+          <field name="domain">[]</field>
+          <field name="context">{}</field>
+      </record>
+      
 <!--       for view for patient -->
       <record id="view_gestion_hopital_patient_form" model="ir.ui.view">
             <field name="name">gestion_hopital.patient.form</field>
@@ -9,6 +17,11 @@
             <field name="arch" type="xml">
                 <form string="Patient">
                 <sheet>
+                    <div class="oe_button_box" name="button_box" position="inside">
+                        <button class="oe_stat_button" type="action" name="%(get_hospitalisation)d" icon="fa-bed">
+                            <field string="hospitalisation" name="internat_count" widget="stat_info"/>
+                        </button>
+                    </div>
                     <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
                     <div class="oe_title">
                         <h1>
@@ -151,7 +164,7 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="nom"/>
+                            <field name="name"/>
                             <field name="code"/>
                         </group>
                     </group>
@@ -166,7 +179,7 @@
           <field name="model">gestion_hopital.grade</field>
           <field name="arch" type="xml">
             <tree>
-              <field name="nom"/>
+              <field name="name"/>
               <field name="code"/>
             </tree>
           </field>
@@ -179,11 +192,23 @@
           <field name="view_mode">tree,form</field>
         </record>
       
-        <!-- actions opening views on specialite -->
-        <record model="ir.actions.act_window" id="gestion_hopital.specialite_action_window">
-          <field name="name">Specialites</field>
-          <field name="res_model">gestion_hopital.specialite</field>
-          <field name="view_mode">tree,form</field>
+      <!-- specialite form view -->
+      <record id="view_gestion_hopital_grade_form" model="ir.ui.view">
+            <field name="name">gestion_hopital.specialite.form</field>
+            <field name="model">gestion_hopital.specialite</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <form string="Specialite">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
         </record>
       
       
@@ -193,7 +218,7 @@
           <field name="model">gestion_hopital.specialite</field>
           <field name="arch" type="xml">
             <tree>
-              <field name="nom"/>
+              <field name="name"/>
               <field name="code"/>
             </tree>
           </field>
@@ -205,40 +230,135 @@
           <field name="res_model">gestion_hopital.specialite</field>
           <field name="view_mode">tree,form</field>
         </record>
-
-    <!-- server action to the one above -->
-    
-<!--     <record model="ir.actions.server" id="gestion_hopital.action_server">
-      <field name="name">gestion_hopital server</field>
-      <field name="model_id" ref="model_gestion_hopital_patient"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": self._name,
-        }
-      </field>
-    </record> -->
-   
-
+      
+      <!-- salle form view -->
+      <record id="view_gestion_hopital_salle_form" model="ir.ui.view">
+            <field name="name">gestion_hopital.salle.form</field>
+            <field name="model">gestion_hopital.salle</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <form string="Salle">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="numero"/>
+                            <field name="nb_patient"/>
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+      
+        <!-- explicit list view definition for salle-->
+        <record model="ir.ui.view" id="gestion_hopital.salle">
+          <field name="name">Salle List</field>
+          <field name="model">gestion_hopital.salle</field>
+          <field name="arch" type="xml">
+            <tree>
+              <field name="name"/>
+              <field name="numero"/>
+              <field name="nb_patient"/>
+            </tree>
+          </field>
+        </record>
+      
+      <!-- actions opening views on salle -->
+        <record model="ir.actions.act_window" id="gestion_hopital.salle_action_window">
+          <field name="name">Salle</field>
+          <field name="res_model">gestion_hopital.salle</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+      
+      
+      <!-- internat form view -->
+      <record id="view_gestion_hopital_internat_form" model="ir.ui.view">
+            <field name="name">Hopitalization Form</field>
+            <field name="model">gestion_hopital.internat</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <form string="Salle">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="salle_id"/>
+                        </group>
+                        <group>
+                            <field name="in_date"/>
+                            <field name="out_date"/>
+                        </group>
+                        <group>
+                            <field name="note"/>
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+      
+      
+       <!-- explicit list view definition for salle-->
+        <record model="ir.ui.view" id="gestion_hopital.internat">
+          <field name="name">Hospitalisation List</field>
+          <field name="model">gestion_hopital.internat</field>
+          <field name="arch" type="xml">
+            <tree>
+              <field name="patient_id"/>
+              <field name="salle_id"/>
+              <field name="in_date"/>
+              <field name="out_date"/>
+            </tree>
+          </field>
+        </record>
+      
+      <!-- search view for intarnat -->
+      <record id="view_internat_filter" model="ir.ui.view">
+        <field name="name">gestion_hopital.internat.search</field>
+        <field name="model">gestion_hopital.internat</field>
+        <field name="arch" type="xml">
+            <search string="Search hospitalization">
+                <field name="salle_id" string="salle"/>
+                <group col="8" colspan="4" expand="0" string="Group By">
+                    <filter string="Salles" name="salle_id" context="{'group_by':'salle_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+      
+      <!-- actions opening views on salle -->
+        <record model="ir.actions.act_window" id="gestion_hopital.internat_action_window">
+          <field name="name">Hospitalisation</field>
+          <field name="res_model">gestion_hopital.internat</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+      
     <!-- Top menu item -->
     
     <menuitem name="gestion_hopital" id="gestion_hopital.menu_root"/>
    
     <!-- menu categories -->
     
-    <menuitem name="Patiens" id="gestion_hopital.menu_patient" parent="gestion_hopital.menu_root" action="gestion_hopital.patient_action_window"/>
-    <menuitem name="Medecin" id="gestion_hopital.menu_medecin" parent="gestion_hopital.menu_root" action="gestion_hopital.medecin_action_window"/>
+    <menuitem name="Patiens" id="gestion_hopital.menu_patient" parent="gestion_hopital.menu_root" action="gestion_hopital.patient_action_window" sequence="1"/>
+    <menuitem name="Medecins" id="gestion_hopital.menu_medecin" parent="gestion_hopital.menu_root" action="gestion_hopital.medecin_action_window" sequence="2"/>
+    <menuitem name="Hospitalisations" id="gestion_hopital.menu_hospitalisation" parent="gestion_hopital.menu_root" action="gestion_hopital.internat_action_window" sequence="3"/>
     <menuitem name="Configurations" id="gestion_hopital.menu_configuration" parent="gestion_hopital.menu_root"/>
 <!--     <menuitem name="Menu 2" id="gestion_hopital.menu_2" parent="gestion_hopital.menu_root"/> -->
    
     <!-- actions -->
     
-    <menuitem name="Grades" id="gestion_hopital.menu_grade" parent="gestion_hopital.menu_configuration"
+    <menuitem name="Grades" id="gestion_hopital.menu_grade" parent="gestion_hopital.menu_configuration" sequence="1"
               action="gestion_hopital.grade_action_window"/>
-    <menuitem name="Specialites" id="gestion_hopital.menu_specialite" parent="gestion_hopital.menu_configuration"
+    <menuitem name="Specialites" id="gestion_hopital.menu_specialite" parent="gestion_hopital.menu_configuration" sequence="2"
               action="gestion_hopital.specialite_action_window"/>
+    <menuitem name="Salle" id="gestion_hopital.menu_salle" parent="gestion_hopital.menu_configuration" sequence="3"
+              action="gestion_hopital.salle_action_window"/>
       
 <!--     <menuitem name="Server to list" id="gestion_hopital" parent="gestion_hopital.menu_2"
               action="gestion_hopital.action_server"/> -->

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "gestion_hopital",
+    'name': "Gestion Hopital",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Module for Hospital management""",
 
     'description': """
         Long description of module's purpose
@@ -27,8 +26,7 @@
         'security/hopital_security.xml',
         'security/ir.model.access.csv',
         'data/patient_sequence.xml',
-        'views/views.xml',
-        'views/templates.xml',
+        'views/views.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
