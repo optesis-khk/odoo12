@@ -25,12 +25,6 @@ class gestion_hopital_patient(models.Model):
     ], 'Sexe')
     numero_securite_sociale = fields.Char(string="Numero securité social")
     medecin_ids = fields.Many2many('gestion_hopital.medecin', 'medecin_patient_rel', 'patient_id', 'medecin_id', string="Medecin")
-    internat_count = fields.Integer('Count', compute="_get_internat_count")
-    
-    def _get_internat_count(self):
-        for rec in self:
-            rec.internat_count = self.env['gestion_hopital.internat'].search_count([('patient_id', '=', rec.id)])
-    
     
     @api.model
     def create(self, vals):
@@ -104,5 +98,5 @@ class gestion_hopital_internat(models.Model):
        return result
     
     
-    
+
     

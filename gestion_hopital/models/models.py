@@ -104,5 +104,3 @@ class gestion_hopital_internat(models.Model):
        return result
     
     
-    
-    
