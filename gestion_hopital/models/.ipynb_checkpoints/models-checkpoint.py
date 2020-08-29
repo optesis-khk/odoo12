@@ -25,6 +25,11 @@ class gestion_hopital_patient(models.Model):
     ], 'Sexe')
     numero_securite_sociale = fields.Char(string="Numero securité social")
     medecin_ids = fields.Many2many('gestion_hopital.medecin', 'medecin_patient_rel', 'patient_id', 'medecin_id', string="Medecin")
+    internat_count = fields.Integer('Count', compute="_get_internat_count")
+    
+    def _get_internat_count(self):
+        for rec in self:
+            rec.internat_count = self.env['gestion_hopital.internat'].search_count([('patient_id', '=', rec.id)])
     
     
     @api.model
@@ -70,11 +75,34 @@ class gestion_hopital_salle(models.Model):
     _description = "Salle Model"
     
     _sql_constraints = [
-        ('name_uniq', 'UNIQUE (numero)',  'You can not have two users with the same name !')
+        ('name_uniq', 'UNIQUE (numero)',  'You can not have two rooms with the same number !')
     ]
     
     name = fields.Char(string="Salle")
     numero = fields.Char(string="Numero")
-    nb_patient = fields.Integer(string="Numero")
+    nb_patient = fields.Integer(string="Nombre Patient")
+    
+    
+class gestion_hopital_internat(models.Model):
+    _name = 'gestion_hopital.internat'
+    _description = "Internat Model"
+    
+    name = fields.Char(readonly=True, required=True, copy=False,default='New')
+    salle_id = fields.Many2one('gestion_hopital.salle', string='Salle')
+    patient_id = fields.Many2one('gestion_hopital.patient', string='Patient')
+    in_date = fields.Date(string='Date Entrée')
+    out_date = fields.Date(string='Date Entrée')
+    note = fields.Text(string='Note')
+    
+    
+    @api.model
+    def create(self, vals):
+       if vals.get('name', 'New') == 'New':
+           patient = self.env['gestion_hopital.patient'].search([('id', '=', vals.get('patient_id'))])
+           vals['name'] = 'Hospitalisation '+ patient.name or 'New'
+       result = super(gestion_hopital_internat, self).create(vals)
+       return result
+    
+    
     
     
