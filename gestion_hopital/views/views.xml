@@ -1,14 +1,6 @@
 <odoo>
   <data>
       
-      <record model="ir.actions.act_window" id="get_hospitalisation">
-          <field name="name">Hospitalisation</field>
-          <field name="res_model">gestion_hopital.internat</field>
-          <field name="view_mode">tree,form</field>
-          <field name="domain">[]</field>
-          <field name="context">{}</field>
-      </record>
-      
 <!--       for view for patient -->
       <record id="view_gestion_hopital_patient_form" model="ir.ui.view">
             <field name="name">gestion_hopital.patient.form</field>
@@ -18,7 +10,7 @@
                 <form string="Patient">
                 <sheet>
                     <div class="oe_button_box" name="button_box" position="inside">
-                        <button class="oe_stat_button" type="action" name="%(get_hospitalisation)d" icon="fa-bed">
+                        <button class="oe_stat_button" type="object" name="get_hospitalisation" icon="fa-bed">
                             <field string="hospitalisation" name="internat_count" widget="stat_info"/>
                         </button>
                     </div>
@@ -324,8 +316,10 @@
         <field name="model">gestion_hopital.internat</field>
         <field name="arch" type="xml">
             <search string="Search hospitalization">
+                <field name="patient_id" string="Patient"/>
                 <field name="salle_id" string="salle"/>
                 <group col="8" colspan="4" expand="0" string="Group By">
+                    <filter string="Patients" name="patient_id" context="{'group_by':'patient_id'}"/>
                     <filter string="Salles" name="salle_id" context="{'group_by':'salle_id'}"/>
                 </group>
             </search>
