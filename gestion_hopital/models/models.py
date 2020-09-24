@@ -87,7 +87,15 @@ class gestion_hopital_medecin(models.Model):
         ('homme', 'Homme'),
         ('femme', 'Femme'),
     ], 'Sexe')
-    code = fields.Char(string="Code Medecin")
+    code = fields.Char(string="Code Medecin", readonly=True, required=True, copy=False, default='New')
+    
+    @api.model
+    def create(self, vals):
+       if vals.get('code', 'New') == 'New':
+           vals['code'] = self.env['ir.sequence'].next_by_code(
+               'gestion_hopital.medecin') or 'New'
+       result = super(gestion_hopital_medecin, self).create(vals)
+       return result
     
     
 class gestion_hopital_grade(models.Model):

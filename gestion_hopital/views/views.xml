@@ -336,7 +336,7 @@
 
     <!-- Top menu item -->
     
-    <menuitem name="gestion_hopital" id="gestion_hopital.menu_root"/>
+    <menuitem name="Gestion Hopital" web_icon="gestion_hopital,static/description/icon.png" id="gestion_hopital.menu_root"/>
    
     <!-- menu categories -->
     

@@ -19,13 +19,14 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base_setup','mail'],
 
     # always loaded
     'data': [
         'security/hopital_security.xml',
         'security/ir.model.access.csv',
         'data/patient_sequence.xml',
+        'data/medecin_sequence.xml',
         'views/views.xml'
     ],
     # only loaded in demonstration mode
