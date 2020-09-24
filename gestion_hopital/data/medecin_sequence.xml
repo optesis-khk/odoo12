@@ -1,0 +1,11 @@
+<odoo>
+    <record id="sequence_self_service" model="ir.sequence">
+       <field name="name">Gestion Hopital Medecin</field>
+       <field name="code">gestion_hopital.medecin</field>
+       <field name="active">TRUE</field>
+       <field name="prefix">Med</field>
+       <field name="padding">4</field>
+       <field name="number_next">1</field>
+       <field name="number_increment">1</field>
+    </record>
+</odoo>
